@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+h2 {
+    @apply text-2xl font-semibold;
+}
+
+p {
+    @apply text-neutral-400 text-sm
+}
+
+
+label {
+    @apply font-medium text-sm;
+}
+
+input[type="text"] {
+    @apply font-normal text-sm px-3 py-2 border-[1px] rounded-lg placeholder:text-neutral-400 placeholder:font-light;
+}
