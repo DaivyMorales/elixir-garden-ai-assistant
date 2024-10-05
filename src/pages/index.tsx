@@ -3,6 +3,7 @@ import { RiSparkling2Fill } from "react-icons/ri";
 import { TbArrowsMoveVertical } from "react-icons/tb";
 import { useFormik } from "formik";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 function Home() {
   const [response, setResponse] = useState<string>("");
@@ -283,10 +284,10 @@ function Home() {
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
                   <input
                     type="checkbox"
-                    name="notes" 
+                    name="notes"
                     id="citrica"
-                    value="Cítrica" 
-                    onChange={formik.handleChange} 
+                    value="Cítrica"
+                    onChange={formik.handleChange}
                   />
                   <div className="flex flex-col">
                     <label htmlFor="citrica" className="font-medium text-black">
@@ -301,10 +302,10 @@ function Home() {
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
                   <input
                     type="checkbox"
-                    name="notes" 
+                    name="notes"
                     id="amaderada"
-                    value="Amaderada" 
-                    onChange={formik.handleChange} 
+                    value="Amaderada"
+                    onChange={formik.handleChange}
                   />
                   <div className="flex flex-col">
                     <label
@@ -324,8 +325,8 @@ function Home() {
                     type="checkbox"
                     name="notes"
                     id="floral"
-                    value="Floral" 
-                    onChange={formik.handleChange} 
+                    value="Floral"
+                    onChange={formik.handleChange}
                   />
                   <div className="flex flex-col">
                     <label htmlFor="floral" className="font-medium text-black">
@@ -340,10 +341,10 @@ function Home() {
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
                   <input
                     type="checkbox"
-                    name="notes" 
+                    name="notes"
                     id="oriental"
-                    value="Oriental" 
-                    onChange={formik.handleChange} 
+                    value="Oriental"
+                    onChange={formik.handleChange}
                   />
                   <div className="flex flex-col">
                     <label
@@ -371,13 +372,16 @@ function Home() {
               ></textarea>
             </div>
 
-            <button
+            <motion.button
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.6 }}
               type="submit"
               className="flex w-full items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 bg-gradient-to-t from-green-500 to-green-400 px-4 py-2 text-sm font-semibold text-white shadow-inner"
             >
               Generar perfume
               <RiSparkling2Fill color="white" size={17} />
-            </button>
+            </motion.button>
           </div>
         </form>
       ) : (
