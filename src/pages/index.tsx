@@ -1,22 +1,48 @@
 import React, { useState } from "react";
-import {
-  TiBriefcase,
-  TiGroupOutline,
-  TiHeartOutline,
-  TiHomeOutline,
-} from "react-icons/ti";
 import { RiSparkling2Fill } from "react-icons/ri";
 import { TbArrowsMoveVertical } from "react-icons/tb";
+import { useFormik } from "formik";
+import axios from "axios";
 
 function Home() {
-  const [categories, setCategories] = useState(1);
-  const [occasion, setOccasion] = useState(0);
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      age: 0,
+      gender: "",
+      city: "Bogota D.C",
+      occasion: "",
+      duration: "",
+      personality: "",
+      intensity: "",
+      notes: [],
+      aditional_information: "",
+    },
+    onSubmit: async (values) => {
+      console.log(values);
+
+      setLoading(true);
+
+      const res = await axios.post("/api/openai", values);
+
+      if (res.status == 200) {
+        setResponse(res.data);
+        setLoading(false);
+      }
+    },
+  });
 
   return (
-    <main className="flex h-full w-screen flex-col items-center justify-center gap-5 px-10 py-10">
-      <div className="flex flex-col items-start justify-center gap-5">
-        {categories === 1 ? (
-          <>
+    <>
+      {!response ? (
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex h-full w-screen flex-col items-center justify-center gap-5 px-10 py-10"
+        >
+          <div className="flex flex-col items-start justify-center gap-5">
             <div className="flex flex-col gap-1">
               <h1>¿Cual es el mejor perfume para ti?</h1>
               <p>Ingresa los siguientes datos para inteligencia artificial</p>
@@ -26,22 +52,43 @@ function Home() {
                 Nombre <span className="text-red-500">*</span>
               </label>
               <input
+                name="name"
+                onChange={formik.handleChange}
                 type="text"
                 className="w-[280px]"
                 placeholder="Daivy Morales"
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label htmlFor="name">Edad</label>
-              <input type="text" className="w-[280px]" placeholder="19" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label htmlFor="name">Sexo</label>
+              <label htmlFor="name">
+                {" "}
+                Edad <span className="text-red-500">*</span>
+              </label>
               <input
-                type="text"
+                type="number"
+                name="age"
+                onChange={formik.handleChange}
                 className="w-[280px]"
-                placeholder="Masculino"
+                placeholder="19"
               />
+            </div>
+
+            <div className="relative flex w-full flex-col gap-1">
+              <label htmlFor="personality">
+                Sexo <span className="text-red-500">*</span>
+              </label>
+              <select
+                onChange={formik.handleChange}
+                id="gender"
+                name="gender"
+                className="w-[280px] rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm"
+              >
+                <option value="" className="">
+                  Selecciona una opción
+                </option>
+                <option value="Masculino"> Masculino</option>
+                <option value="Femenino">Femenino</option>
+              </select>
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="name">Ciudad</label>
@@ -56,7 +103,9 @@ function Home() {
                 <span className="text-red-500">*</span>
               </label>
               <select
-                id="personality"
+                onChange={formik.handleChange}
+                id="occasion"
+                name="occasion"
                 className="w-full appearance-none rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm"
               >
                 <option value="" className="">
@@ -73,7 +122,7 @@ function Home() {
                   Para salir con amigos o fiestas
                 </option>
                 <option value="Para salir con amigos o fiestas">
-                Para la oficina o reuniones formales
+                  Para la oficina o reuniones formales
                 </option>
               </select>
               <span className="pointer-events-none absolute right-3 top-1/2 translate-y-1 transform text-neutral-500">
@@ -94,10 +143,16 @@ function Home() {
 
               <div className="flex w-full flex-col items-start justify-center gap-2">
                 <div className="flex w-full cursor-pointer items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="radio" name="duracion" id="duradero" />
+                  <input
+                    type="radio"
+                    name="duracion"
+                    id="duracion"
+                    value="Duradero"
+                    onChange={formik.handleChange}
+                  />
                   <div className="flex flex-col">
                     <label
-                      htmlFor="duradero"
+                      htmlFor="Duradero"
                       className="font-medium text-black"
                     >
                       Duradero
@@ -109,9 +164,15 @@ function Home() {
                 </div>
 
                 <div className="flex w-full cursor-pointer gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="radio" name="duracion" id="ligero" />
+                  <input
+                    type="radio"
+                    name="duracion"
+                    id="duracion"
+                    value="Ligero"
+                    onChange={formik.handleChange}
+                  />
                   <div className="flex flex-col">
-                    <label htmlFor="ligero" className="font-medium text-black">
+                    <label htmlFor="Ligero" className="font-medium text-black">
                       Ligero
                     </label>
                     <span className="text-xs">
@@ -128,7 +189,9 @@ function Home() {
                 <span className="text-red-500">*</span>
               </label>
               <select
+                onChange={formik.handleChange}
                 id="personality"
+                name="personality"
                 className="w-full appearance-none rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm"
               >
                 <option value="" className="">
@@ -166,7 +229,13 @@ function Home() {
 
               <div className="flex w-full flex-col items-center justify-center gap-2">
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="radio" name="aroma" id="llamativo" />
+                  <input
+                    type="radio"
+                    name="intensity"
+                    id="intensity"
+                    value="Llamativo"
+                    onChange={formik.handleChange}
+                  />
                   <div className="flex flex-col">
                     <label
                       htmlFor="llamativo"
@@ -181,7 +250,13 @@ function Home() {
                 </div>
 
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="radio" name="aroma" id="sutil" />
+                  <input
+                    type="radio"
+                    name="intensity"
+                    id="intensity"
+                    value="Sutil"
+                    onChange={formik.handleChange}
+                  />
                   <div className="flex flex-col">
                     <label htmlFor="sutil" className="font-medium text-black">
                       Sutil
@@ -207,7 +282,13 @@ function Home() {
 
               <div className="flex w-full flex-col items-center justify-center gap-2">
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="checkbox" name="aroma" id="citrica" />
+                  <input
+                    type="checkbox"
+                    name="notes" 
+                    id="citrica"
+                    value="Cítrica" 
+                    onChange={formik.handleChange} 
+                  />
                   <div className="flex flex-col">
                     <label htmlFor="citrica" className="font-medium text-black">
                       Cítrica
@@ -219,7 +300,13 @@ function Home() {
                 </div>
 
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="checkbox" name="aroma" id="amaderada" />
+                  <input
+                    type="checkbox"
+                    name="notes" 
+                    id="amaderada"
+                    value="Amaderada" 
+                    onChange={formik.handleChange} 
+                  />
                   <div className="flex flex-col">
                     <label
                       htmlFor="amaderada"
@@ -234,7 +321,13 @@ function Home() {
                 </div>
 
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="checkbox" name="aroma" id="floral" />
+                  <input
+                    type="checkbox"
+                    name="notes"
+                    id="floral"
+                    value="Floral" 
+                    onChange={formik.handleChange} 
+                  />
                   <div className="flex flex-col">
                     <label htmlFor="floral" className="font-medium text-black">
                       Floral
@@ -246,7 +339,13 @@ function Home() {
                 </div>
 
                 <div className="flex w-full items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                  <input type="checkbox" name="aroma" id="oriental" />
+                  <input
+                    type="checkbox"
+                    name="notes" 
+                    id="oriental"
+                    value="Oriental" 
+                    onChange={formik.handleChange} 
+                  />
                   <div className="flex flex-col">
                     <label
                       htmlFor="oriental"
@@ -265,25 +364,27 @@ function Home() {
             <div className="flex w-full flex-col gap-1">
               <label htmlFor="name"> ¿Algo adicional que te gustaria?</label>
               <textarea
+                name="aditional_information"
+                onChange={formik.handleChange}
                 rows={4}
                 placeholder='"Quiero un aroma que me recuerde momentos felices."'
                 className="rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm placeholder:font-light placeholder:text-neutral-400 focus:border-green-500 focus:outline-none"
               ></textarea>
             </div>
-          </>
-        ) : (
-          <></>
-        )}
 
-        <button
-          onClick={() => setCategories(categories + 1)}
-          className="flex w-full items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 bg-gradient-to-t from-green-500 to-green-400 px-4 py-2 text-sm font-semibold text-white shadow-inner"
-        >
-          Generar perfume
-          <RiSparkling2Fill color="white" size={17} />
-        </button>
-      </div>
-    </main>
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 bg-gradient-to-t from-green-500 to-green-400 px-4 py-2 text-sm font-semibold text-white shadow-inner"
+            >
+              Generar perfume
+              <RiSparkling2Fill color="white" size={17} />
+            </button>
+          </div>
+        </form>
+      ) : (
+        <>{response}</>
+      )}
+    </>
   );
 }
 
