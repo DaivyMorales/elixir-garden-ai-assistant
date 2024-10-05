@@ -5,19 +5,20 @@ import {
   TiHeartOutline,
   TiHomeOutline,
 } from "react-icons/ti";
+import { RiSparkling2Fill } from "react-icons/ri";
 
 function Home() {
   const [categories, setCategories] = useState(1);
   const [occasion, setOccasion] = useState(0);
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center gap-5 px-10">
+    <main className="flex h-full w-screen flex-col items-center justify-center gap-5 px-10 py-10">
       <div className="flex flex-col items-start justify-center gap-5">
         {categories === 1 ? (
           <>
             <div className="flex flex-col gap-1">
-              <h2>Asistente AI</h2>
-              <p>Ingresar datos para generar</p>
+              <h1>¿Cual es el mejor perfume para ti?</h1>
+              <p>Ingresa los siguientes datos para inteligencia artificial</p>
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="name">
@@ -25,76 +26,132 @@ function Home() {
               </label>
               <input
                 type="text"
-                className="w-[380px]"
+                className="w-[280px]"
                 placeholder="Daivy Morales"
               />
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="name">Edad</label>
-              <input type="text" className="w-[380px]" placeholder="19" />
+              <input type="text" className="w-[280px]" placeholder="19" />
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="name">Sexo</label>
               <input
                 type="text"
-                className="w-[380px]"
+                className="w-[280px]"
                 placeholder="Masculino"
               />
             </div>
             <div className="flex flex-col gap-1">
               <label htmlFor="name">Ciudad</label>
-              <input type="text" className="w-[380px]" value="Bogota D.C" />
+              <input type="text" className="w-[280px]" value="Bogota D.C" />
+            </div>
+
+            <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="name"> ¿Para qué ocasión lo buscas?</label>
+              <input
+                type="text"
+                className="w-[280px]"
+                placeholder="Evento especial"
+              />
+            </div>
+
+            <div className="flex w-full flex-col gap-1">
+              {/* Duración Section */}
+              <label htmlFor="duracion">
+                Duración <span className="text-red-500">*</span>
+              </label>
+
+              <div className="flex w-full flex-col items-start justify-center gap-2">
+                <div className="flex w-full gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
+                  <input type="radio" name="duracion" id="duradero" />
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="duradero"
+                      className="font-medium text-black"
+                    >
+                      Duradero
+                    </label>
+                    <span className="text-xs">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex w-full gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
+                  <input type="radio" name="duracion" id="ligero" />
+                  <div className="flex flex-col">
+                    <label htmlFor="ligero" className="font-medium text-black">
+                      Ligero
+                    </label>
+                    <span className="text-xs">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="name">
+                {" "}
+                ¿Cómo consideras que es tu personalidad?
+              </label>
+              <input
+                type="text"
+                className="w-[280px]"
+                placeholder="Energético y fresco"
+              />
+            </div>
+
+            <div className="flex w-full flex-col gap-1">
+              {/* Aroma Section */}
+              <label htmlFor="aroma">
+                Aroma <span className="text-red-500">*</span>
+              </label>
+
+              <div className="flex w-full flex-col items-start justify-center gap-2">
+                <div className="flex w-full gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
+                  <input type="radio" name="aroma" id="llamativo" />
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="llamativo"
+                      className="font-medium text-black"
+                    >
+                      Llamativo
+                    </label>
+                    <span className="text-xs">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex w-full gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
+                  <input type="radio" name="aroma" id="sutil" />
+                  <div className="flex flex-col">
+                    <label htmlFor="sutil" className="font-medium text-black">
+                      Sutil
+                    </label>
+                    <span className="text-xs">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing.
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </>
         ) : (
-          <>
-            <div className="flex flex-col gap-1">
-              <h3 className="text- font-bold">
-                ¿Para qué ocasión estás buscando el perfume?
-              </h3>
-              <p className="text-neutral-400">Lorem ipsum dolor sit amet.</p>
-            </div>
-            <div className="grid w-full grid-cols-2 gap-3">
-              <div
-                onClick={() => setOccasion(1)}
-                className={`${occasion === 1 ? "border-green-500 text-green-500" : "text-neutral-400"} flex h-[100px] cursor-pointer flex-col items-start justify-center gap-1 rounded-lg border-[1px] px-3 shadow-sm hover:border-green-500`}
-              >
-                <TiGroupOutline  size={26} />
-                <p className="font-normal">Amigos, Fiestas</p>
-              </div>
-
-              <div
-                onClick={() => setOccasion(2)}
-                className={`${occasion === 2 ? "border-green-500 text-green-500" : "text-neutral-400"} flex h-[100px] cursor-pointer flex-col items-start justify-center gap-1 rounded-lg border-[1px] px-3 shadow-sm hover:border-green-500`}
-              >
-                <TiBriefcase  size={26} />
-                <p className="font-normal">Trabajo, Oficina</p>
-              </div>
-
-              <div
-                onClick={() => setOccasion(3)}
-                className={`${occasion === 3 ? "border-green-500 text-green-500" : "text-neutral-400"} flex h-[100px] cursor-pointer flex-col items-start justify-center gap-1 rounded-lg border-[1px] px-3 shadow-sm hover:border-green-500`}
-              >
-                <TiHeartOutline  size={26} />
-                <p className="font-normal">Eventos, Citas</p>
-              </div>
-
-              <div
-                onClick={() => setOccasion(4)}
-                className={` ${occasion === 4 ? "border-green-500 text-green-500" : "text-neutral-400"} flex h-[100px] cursor-pointer flex-col items-start justify-center gap-1 rounded-lg border-[1px] px-3 shadow-sm hover:border-green-500`}
-              >
-                <TiHomeOutline size={26} />
-                <p className="font-normal">Casual, Diario</p>
-              </div>
-            </div>
-          </>
+          <></>
         )}
 
         <button
           onClick={() => setCategories(categories + 1)}
-          className="w-[380px] rounded-lg bg-green-500 py-2 text-sm font-semibold text-white shadow-inner"
+          className="flex w-[280px] items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 bg-gradient-to-t from-green-500 to-green-400 px-4 py-2 text-sm font-semibold text-white shadow-inner"
         >
-          Siguiente
+          Generar perfume
+          <RiSparkling2Fill color="white" size={17} />
         </button>
       </div>
     </main>
