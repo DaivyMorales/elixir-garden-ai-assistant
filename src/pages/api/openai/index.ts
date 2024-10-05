@@ -1,23 +1,34 @@
 import OpenAI from "openai";
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 const openai = new OpenAI();
 
+interface RequestBody {
+  name: string;
+  age: number;
+  gender: string;
+  occasion: string;
+  duration: string;
+  personality: string;
+  intensity: string;
+  notes: string;
+  aditional_information: string;
+}
+
 export default async function Gpt(req: NextApiRequest, res: NextApiResponse) {
+  const body = req.body as RequestBody;
+
   const {
-    body: {
-      name,
-      age,
-      gender,
-      city,
-      occasion,
-      duration,
-      personality,
-      intensity,
-      notes,
-      aditional_information,
-    },
-  } = req;
+    name,
+    age,
+    gender,
+    occasion,
+    duration,
+    personality,
+    intensity,
+    notes,
+    aditional_information,
+  } = body;
 
   try {
     // if (!prompt) {

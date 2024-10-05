@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 
 function Home() {
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -13,7 +13,6 @@ function Home() {
       name: "",
       age: 0,
       gender: "",
-      city: "Bogota D.C",
       occasion: "",
       duration: "",
       personality: "",
@@ -29,7 +28,7 @@ function Home() {
       const res = await axios.post("/api/openai", values);
 
       if (res.status == 200) {
-        setResponse(res.data);
+        setResponse(res.data as string);
         setLoading(false);
       }
     },
