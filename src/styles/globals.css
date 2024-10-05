@@ -4,6 +4,7 @@
 
 body {
   background-color: #f7f7f7;
+  @apply font-light; 
 }
 h1 {
   @apply text-2xl font-black;
@@ -18,7 +19,7 @@ p {
 }
 
 label {
-  @apply text-sm font-medium;
+  @apply text-sm font-bold;
 }
 
 input[type="text"] {
