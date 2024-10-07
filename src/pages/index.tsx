@@ -7,11 +7,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import Chart from "@/components/Chart";
 import { useGlobalData } from "@/store/GlobalDataSlice";
 import validationSchema from "@/utils/validationSchema";
+import { CgSpinner } from "react-icons/cg";
 
 function Home() {
   const { response, setResponse } = useGlobalData();
 
   const [loading, setLoading] = useState(false);
+  const [error, seterror] = useState<any>();
 
   const formik = useFormik({
     initialValues: {
@@ -29,15 +31,20 @@ function Home() {
     onSubmit: async (values) => {
       console.log(values);
 
-      // setLoading(true);
+      setLoading(true);
 
-      // const res = await axios.post("/api/openai", values);
-      // console.log(res);
-      // if (res.status == 200) {
-      //   setResponse(res.data);
-      //   console.log(response);
-      //   setLoading(false);
-      // }
+      try {
+        const res = await axios.post("/api/openai", values);
+        if (res.status === 200) {
+          setResponse(res.data);
+        }
+        console.log("Form submitted successfully!");
+      } catch (error) {
+        console.error("Submission error:", error);
+        seterror(error);
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -435,22 +442,30 @@ function Home() {
               <motion.button
                 type="submit"
                 initial={{ scale: 1 }}
-                whileHover={{ scale: 1.1 }}
+                whileHover={loading ? { scale: 1 } : { scale: 1.1 }}
                 whileTap={
-                  (formik.isValid && formik.dirty)
-                    ? { scale: 0.6 }
-                    : { scale: 1}
+                  (formik.isValid && formik.dirty) || !loading
+                    ? { scale: 1 }
+                    : { scale: 0.6 }
                 }
-                // disabled={!(formik.isValid && formik.dirty)}
+                disabled={loading}
                 className={` ${
                   !(formik.isValid && formik.dirty)
                     ? "cursor-not-allowed border-neutral-300 bg-gray-300 text-gray-600"
                     : "bg-gradient-to-t from-green-500 to-green-400"
                 } flex w-full items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 px-4 py-2 text-sm font-semibold text-white shadow-inner`}
               >
-                Generar perfume
-                <RiSparkling2Fill color="white" size={17} />
+                {loading ? (
+                  <CgSpinner color="white" size={20} className="animate-spin" />
+                ) : (
+                  <>
+                    Generar perfume
+                    <RiSparkling2Fill color="white" size={17} />
+                  </>
+                )}
               </motion.button>
+
+              {error}
             </div>
           </motion.form>
         ) : loading ? (
