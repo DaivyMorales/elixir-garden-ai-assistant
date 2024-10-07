@@ -40,7 +40,7 @@ const example = [
 
 
 
-export const BarChartOnValueChangeExample = ({ className = "h-72 w-[390px]", colors = ["green"] }) => {
+export const BarChartOnValueChangeExample = ({ className = "h-72 w-[410px]", colors = ["green"] }) => {
   const [value, setValue] = React.useState<any>(null);
 
   const dataFormatter = (number: number) => `${number}%`;

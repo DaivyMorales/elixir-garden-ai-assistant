@@ -471,56 +471,58 @@ function Home() {
         ) : loading ? (
           <>loading...</>
         ) : (
-          <div className="flex h-full w-screen flex-col items-start justify-center gap-5 px-10 py-10">
-            <div className="flex flex-col gap-1">
-              <h1>{formik.values.name}, el mejor perfume para ti es...</h1>
-              <p>Ingresa los siguientes datos para inteligencia artificial</p>
-            </div>
-            <Chart />
-            {response.map((perfum: any, index) => {
-              const scale = 1 - index * 0.1;
+          <div className="flex h-full w-screen flex-col items-center justify-center py-10">
+            <div className="items-statr flex flex-col justify-center gap-5">
+              <div className="flex flex-col gap-1">
+                <h1>{formik.values.name}, el mejor perfume para ti es...</h1>
+                <p>Ingresa los siguientes datos para inteligencia artificial</p>
+              </div>
+              <Chart />
+              {response.map((perfum: any, index) => {
+                const scale = 1 - index * 0.1;
 
-              let bgColor;
-              switch (index) {
-                case 0:
-                  bgColor = "bg-yellow-400";
-                  break;
-                case 1:
-                  bgColor = "bg-gray-400";
-                  break;
-                case 2:
-                  bgColor = "bg-yellow-700";
-                  break;
-                default:
-                  bgColor = "bg-blue-400";
-              }
+                let bgColor;
+                switch (index) {
+                  case 0:
+                    bgColor = "bg-yellow-400";
+                    break;
+                  case 1:
+                    bgColor = "bg-gray-400";
+                    break;
+                  case 2:
+                    bgColor = "bg-yellow-700";
+                    break;
+                  default:
+                    bgColor = "bg-blue-400";
+                }
 
-              return (
-                <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  key={index}
-                  className="flex w-[410px] items-center gap-3 rounded-lg border-[1px] bg-white shadow-sm"
-                  style={{
-                    transform: `scale(${scale})`,
-                    transformOrigin: "top",
-                  }}
-                >
-                  <div
-                    className={`flex h-[70px] w-[90px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`} // Usamos la variable bgColor
+                return (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    key={index}
+                    className="flex w-[410px] items-center gap-3 rounded-lg border-[1px] bg-white shadow-sm"
+                    style={{
+                      transform: `scale(${scale})`,
+                      transformOrigin: "top",
+                    }}
                   >
-                    {index + 1}.
-                  </div>
-                  <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
-                    {perfum.value}
-                    <span className="text-xs font-light text-neutral-500">
-                      {perfum.description}
-                    </span>
-                  </div>
-                </motion.div>
-              );
-            })}
+                    <div
+                      className={`flex h-[70px] w-[90px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`} // Usamos la variable bgColor
+                    >
+                      {index + 1}.
+                    </div>
+                    <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
+                      {perfum.value}
+                      <span className="text-xs font-light text-neutral-500">
+                        {perfum.description}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         )}
       </AnimatePresence>
