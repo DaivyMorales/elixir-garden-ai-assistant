@@ -3,7 +3,7 @@ import { BarChart } from "@tremor/react";
 import { useGlobalData } from "@/store/GlobalDataSlice";
 
 export const BarChartOnValueChangeExample = ({
-  className = "h-72 w-[410px]",
+  className = "h-72  min-w-[240px] max-w-[450px] ",
   colors = ["green"],
 }) => {
   const dataFormatter = (number: number) => `${number}%`;

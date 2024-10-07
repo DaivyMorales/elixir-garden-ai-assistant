@@ -82,7 +82,9 @@ function Home() {
             <div className="flex flex-col items-start justify-center gap-5">
               <div className="flex flex-col gap-1">
                 <h1>¿Cual es el mejor perfume para ti?</h1>
-                <p>Ingresa los siguientes datos para inteligencia artificial</p>
+                <p className="text-neutral-400">
+                  Ingresa los siguientes datos:
+                </p>
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="name">
@@ -144,7 +146,9 @@ function Home() {
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="name">Ciudad</label>
-                <input type="text" className="w-[280px]" value="Bogota D.C" />
+                <div className="px-4 py-1">
+                  <p className="font-medium">Bogota D.C</p>
+                </div>
               </div>
 
               <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
@@ -215,7 +219,7 @@ function Home() {
                         Duradero
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        El producto ofrece un uso prolongado diario.
                       </span>
                     </div>
                   </div>
@@ -236,7 +240,7 @@ function Home() {
                         Ligero
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        Diseño liviano para máxima comodidad y portabilidad.
                       </span>
                     </div>
                   </div>
@@ -315,7 +319,7 @@ function Home() {
                         Llamativo
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        Diseño atractivo que capta todas las miradas.
                       </span>
                     </div>
                   </div>
@@ -333,7 +337,7 @@ function Home() {
                         Sutil
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        Estilo discreto que realza con elegancia.
                       </span>
                     </div>
                   </div>
@@ -373,7 +377,7 @@ function Home() {
                         Cítrica
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        Aroma fresco con notas vibrantes y energéticas.
                       </span>
                     </div>
                   </div>
@@ -394,7 +398,7 @@ function Home() {
                         Amaderada
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        Fragancia cálida con matices de maderas nobles.
                       </span>
                     </div>
                   </div>
@@ -415,7 +419,7 @@ function Home() {
                         Floral
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        Esencia suave y delicada con toques de flores.
                       </span>
                     </div>
                   </div>
@@ -436,7 +440,7 @@ function Home() {
                         Oriental
                       </label>
                       <span className="text-xs">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing.
+                        Aroma exótico y especiado con un toque misterioso.
                       </span>
                     </div>
                   </div>
@@ -491,11 +495,15 @@ function Home() {
         ) : loading ? (
           <>loading...</>
         ) : (
-          <div className="flex h-full w-screen flex-col items-center justify-center py-10">
-            <div className="items-statr flex flex-col justify-center gap-5">
-              <div className="flex flex-col gap-1">
-                <h1>{formik.values.name}, el mejor perfume para ti es...</h1>
-                <p>Ingresa los siguientes datos para inteligencia artificial</p>
+          <div className="flex h-full w-screen flex-col items-center justify-center px-10 py-10">
+            <div className="flex flex-col items-start justify-center gap-5">
+              <div className="flex w-[280px] w-full flex-col gap-1">
+                <h1>
+                  {formik.values.name}, <br /> el mejor perfume para ti es...
+                </h1>
+                <p className="text-neutral-400">
+                  Resultado de nuestra AI totalmente personalizada para ti.
+                </p>
               </div>
               <Chart />
               {response.map((perfum: ApiResponse, index) => {
@@ -522,14 +530,14 @@ function Home() {
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.5 }}
                     key={index}
-                    className="flex w-[410px] items-center gap-3 rounded-lg border-[1px] bg-white shadow-sm"
+                    className="flex min-w-[280px] max-w-[450px] items-center gap-3 rounded-lg border-[1px] bg-white shadow-sm"
                     style={{
                       transform: `scale(${scale})`,
                       transformOrigin: "top",
                     }}
                   >
                     <div
-                      className={`flex h-[70px] w-[90px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`}
+                      className={`flex h-[70px] w-[100px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`}
                     >
                       {index + 1}.
                     </div>
