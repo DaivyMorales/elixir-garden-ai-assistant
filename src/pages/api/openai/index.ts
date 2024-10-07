@@ -249,16 +249,25 @@ export default async function Gpt(req: NextApiRequest, res: NextApiResponse) {
       temperature: 1,
     });
 
-    const result = completion.choices[0]?.message.content;
-    console.log(result)
+    const result = completion.choices[0]?.message?.content;
 
-    let perfumes;
+    let perfumes: Array<{
+      value: string;
+      description: string;
+      porcentaje: number;
+    }>;
 
     try {
-      perfumes = JSON.parse(result as string);
-      console.log(perfumes);
-    res.status(200).json(perfumes);
-
+      if (typeof result === "string") {
+        perfumes = JSON.parse(result) as Array<{
+          value: string;
+          description: string;
+          porcentaje: number;
+        }>;
+      } else {
+        throw new Error("Result is not a valid string");
+      }
+      res.status(200).json(perfumes);
     } catch (error) {
       console.error("Error al convertir el resultado en JSON:", error);
     }
@@ -266,8 +275,6 @@ export default async function Gpt(req: NextApiRequest, res: NextApiResponse) {
     if (!result) {
       throw new Error("Result is undefined or null");
     }
-
-    // res.status(200).json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error });

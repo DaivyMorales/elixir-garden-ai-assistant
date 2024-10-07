@@ -5,17 +5,35 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Chart from "@/components/Chart";
-import { useGlobalData } from "@/store/GlobalDataSlice";
+import { ResponseValues, useGlobalData } from "@/store/GlobalDataSlice";
 import validationSchema from "@/utils/validationSchema";
 import { CgSpinner } from "react-icons/cg";
+
+interface FormValues {
+  name: string;
+  age: number;
+  gender: string;
+  occasion: string;
+  duration: string;
+  personality: string;
+  intensity: string;
+  notes: string[];
+  aditional_information: string;
+}
+
+interface ApiResponse {
+  value: string;
+  description: string;
+  porcentaje: number;
+}
 
 function Home() {
   const { response, setResponse } = useGlobalData();
 
   const [loading, setLoading] = useState(false);
-  const [error, seterror] = useState<any>();
+  const [error, seterror] = useState<Error | null>(null);
 
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
       age: 0,
@@ -34,14 +52,15 @@ function Home() {
       setLoading(true);
 
       try {
-        const res = await axios.post("/api/openai", values);
+        const res = await axios.post<ApiResponse[]>("/api/openai", values);
+
         if (res.status === 200) {
-          setResponse(res.data);
+          setResponse(Array.isArray(res.data) ? res.data : [res.data]);
         }
         console.log("Form submitted successfully!");
       } catch (error) {
         console.error("Submission error:", error);
-        seterror(error);
+        seterror(error instanceof Error ? error : new Error(String(error)));
       } finally {
         setLoading(false);
       }
@@ -465,7 +484,8 @@ function Home() {
                 )}
               </motion.button>
 
-              {error}
+              {error != null &&
+                (error instanceof Error ? error.message : String(error))}
             </div>
           </motion.form>
         ) : loading ? (
@@ -478,7 +498,7 @@ function Home() {
                 <p>Ingresa los siguientes datos para inteligencia artificial</p>
               </div>
               <Chart />
-              {response.map((perfum: any, index) => {
+              {response.map((perfum: ApiResponse, index) => {
                 const scale = 1 - index * 0.1;
 
                 let bgColor;
@@ -509,7 +529,7 @@ function Home() {
                     }}
                   >
                     <div
-                      className={`flex h-[70px] w-[90px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`} // Usamos la variable bgColor
+                      className={`flex h-[70px] w-[90px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`}
                     >
                       {index + 1}.
                     </div>
