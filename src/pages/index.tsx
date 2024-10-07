@@ -95,7 +95,7 @@ function Home() {
                   onChange={formik.handleChange}
                   type="text"
                   className="w-[280px]"
-                  placeholder="Daivy Morales"
+                  placeholder="Jhon"
                 />
                 {formik.touched.name && formik.errors.name ? (
                   <div className="text-xs font-medium text-red-500">
@@ -113,7 +113,7 @@ function Home() {
                   name="age"
                   onChange={formik.handleChange}
                   className="w-[280px]"
-                  placeholder="19"
+                  placeholder="28"
                 />
                 {formik.touched.age && formik.errors.age ? (
                   <div className="text-xs font-medium text-red-500">
