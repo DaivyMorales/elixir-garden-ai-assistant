@@ -6,40 +6,12 @@ import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Chart from "@/components/Chart";
 import { useGlobalData } from "@/store/GlobalDataSlice";
+import validationSchema from "@/utils/validationSchema";
 
 function Home() {
   const { response, setResponse } = useGlobalData();
-  console.log(response);
 
   const [loading, setLoading] = useState(false);
-
-  const example = [
-    {
-      value: "SAUVAGE",
-      description:
-        "Elegí este perfume porque es conocido por su larga duración y su mezcla de notas cítricas y amaderadas. Además, su intensidad es llamativa, lo que lo hace perfecto para eventos especiales y citas donde quieras dejar una impresión duradera.",
-    },
-    {
-      value: "1 MILLION MEN",
-      description:
-        "Este perfume ofrece una mezcla atractiva de notas cítricas y amaderadas. Su reputación de ser seductor y su alta intensidad lo hacen ideal para destacar en cualquier ocasión memorable.",
-    },
-    {
-      value: "ACQUA DI GIO",
-      description:
-        "Recomendé este perfume por sus frescas y amaderadas notas que evocan un aire sofisticado y duradero. Es perfecto para alguien con una personalidad seductora que busca ser recordado en eventos especiales.",
-    },
-    {
-      value: "INVICTUS",
-      description:
-        "Consideré este perfume porque mezcla de forma excepcional notas cítricas y amaderadas, ofreciendo una presencia fuerte y llamativa que será recordada en cualquier reunión o cita.",
-    },
-    {
-      value: "CLUB DE NUIT INTENSE",
-      description:
-        "Este perfume tiene una combinación intensa de notas amaderadas y cítricas, perfecta para quienes desean un aroma distintivo que perdure y sea recordado en eventos especiales.",
-    },
-  ];
 
   const formik = useFormik({
     initialValues: {
@@ -53,18 +25,19 @@ function Home() {
       notes: [],
       aditional_information: "",
     },
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       console.log(values);
 
-      setLoading(true);
+      // setLoading(true);
 
-      const res = await axios.post("/api/openai", values);
-      console.log(res);
-      if (res.status == 200) {
-        setResponse(res.data);
-        console.log(response);
-        setLoading(false);
-      }
+      // const res = await axios.post("/api/openai", values);
+      // console.log(res);
+      // if (res.status == 200) {
+      //   setResponse(res.data);
+      //   console.log(response);
+      //   setLoading(false);
+      // }
     },
   });
 
@@ -96,6 +69,11 @@ function Home() {
                   className="w-[280px]"
                   placeholder="Daivy Morales"
                 />
+                {formik.touched.name && formik.errors.name ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.name}
+                  </div>
+                ) : null}
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="name">
@@ -109,6 +87,11 @@ function Home() {
                   className="w-[280px]"
                   placeholder="19"
                 />
+                {formik.touched.age && formik.errors.age ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.age}
+                  </div>
+                ) : null}
               </div>
 
               <div className="relative flex w-full flex-col gap-1">
@@ -127,6 +110,11 @@ function Home() {
                   <option value="Masculino"> Masculino</option>
                   <option value="Femenino">Femenino</option>
                 </select>
+                {formik.touched.gender && formik.errors.gender ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.gender}
+                  </div>
+                ) : null}
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="name">Ciudad</label>
@@ -166,6 +154,11 @@ function Home() {
                 <span className="pointer-events-none absolute right-3 top-1/2 translate-y-1 transform text-neutral-500">
                   <TbArrowsMoveVertical />
                 </span>
+                {formik.touched.occasion && formik.errors.occasion ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.occasion}
+                  </div>
+                ) : null}
               </div>
 
               <div className="flex w-full flex-col gap-3">
@@ -222,6 +215,11 @@ function Home() {
                     </div>
                   </div>
                 </div>
+                {formik.touched.duration && formik.errors.duration ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.duration}
+                  </div>
+                ) : null}
               </div>
 
               <div className="relative flex w-full flex-col gap-1">
@@ -238,23 +236,29 @@ function Home() {
                   <option value="" className="">
                     Selecciona una opción
                   </option>
-                  <option value="Energético y fresco">
+                  <option value="Energético(a) y fresco(a)">
                     {" "}
                     Energético(a) y fresco(a)
                   </option>
-                  <option value="Relajado y tranquilo">
+                  <option value="Relajado(a) y tranquilo(a)">
                     Relajado(a) y tranquilo(a)
                   </option>
-                  <option value="Atractivo y seductor">
+                  <option value="Atractivo(a) y seductor(a)">
                     Atractivo(a) y seductor(a)
                   </option>
-                  <option value="Elegante y sofisticado">
+                  <option value="Elegante(a) y sofisticado(a)">
                     Elegante(a) y sofisticado(a)
                   </option>
                 </select>
                 <span className="pointer-events-none absolute right-3 top-1/2 translate-y-1 transform text-neutral-500">
                   <TbArrowsMoveVertical />
                 </span>
+
+                {formik.touched.personality && formik.errors.personality ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.personality}
+                  </div>
+                ) : null}
               </div>
 
               <div className="flex w-full flex-col gap-3">
@@ -308,13 +312,18 @@ function Home() {
                     </div>
                   </div>
                 </div>
+                {formik.touched.intensity && formik.errors.intensity ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.intensity}
+                  </div>
+                ) : null}
               </div>
 
               <div className="flex w-full flex-col gap-3">
                 {/* Notes Section */}
                 <label htmlFor="duracion" className="flex flex-col">
                   <div>
-                    Notas <span className="text-red-500">*</span>
+                    Notas <span className="text-neutral-400">(Opcional)</span>
                   </div>
                   <span className="text-xs text-neutral-400">
                     Elige una o más de nuestras notas:
@@ -409,7 +418,11 @@ function Home() {
               </div>
 
               <div className="flex w-full flex-col gap-1">
-                <label htmlFor="name"> ¿Algo adicional que te gustaria?</label>
+                <label htmlFor="name">
+                  {" "}
+                  ¿Algo adicional que te gustaria?{" "}
+                  <span className="text-neutral-400">(Opcional)</span>
+                </label>
                 <textarea
                   name="aditional_information"
                   onChange={formik.handleChange}
@@ -420,11 +433,20 @@ function Home() {
               </div>
 
               <motion.button
+                type="submit"
                 initial={{ scale: 1 }}
                 whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.6 }}
-                type="submit"
-                className="flex w-full items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 bg-gradient-to-t from-green-500 to-green-400 px-4 py-2 text-sm font-semibold text-white shadow-inner"
+                whileTap={
+                  (formik.isValid && formik.dirty)
+                    ? { scale: 0.6 }
+                    : { scale: 1}
+                }
+                // disabled={!(formik.isValid && formik.dirty)}
+                className={` ${
+                  !(formik.isValid && formik.dirty)
+                    ? "cursor-not-allowed border-neutral-300 bg-gray-300 text-gray-600"
+                    : "bg-gradient-to-t from-green-500 to-green-400"
+                } flex w-full items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 px-4 py-2 text-sm font-semibold text-white shadow-inner`}
               >
                 Generar perfume
                 <RiSparkling2Fill color="white" size={17} />
