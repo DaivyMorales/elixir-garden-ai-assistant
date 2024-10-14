@@ -4,6 +4,7 @@ export interface ResponseValues {
   value: string;
   description: string;
   porcentaje: number;
+  id: string
 }
 
 export interface GlobalDataProps {

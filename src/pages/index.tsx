@@ -4,10 +4,12 @@ import { TbArrowsMoveVertical } from "react-icons/tb";
 import { useFormik } from "formik";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
-import Chart from "@/components/Chart";
 import { ResponseValues, useGlobalData } from "@/store/GlobalDataSlice";
 import validationSchema from "@/utils/validationSchema";
 import { CgSpinner } from "react-icons/cg";
+import { BarHero } from "@/components/BarHero";
+import Image from "next/image";
+import { Charts } from "@/components/Charts";
 
 interface FormValues {
   name: string;
@@ -25,6 +27,7 @@ interface ApiResponse {
   value: string;
   description: string;
   porcentaje: number;
+  id: string;
 }
 
 function Home() {
@@ -47,8 +50,6 @@ function Home() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
-
       setLoading(true);
 
       try {
@@ -57,7 +58,6 @@ function Home() {
         if (res.status === 200) {
           setResponse(Array.isArray(res.data) ? res.data : [res.data]);
         }
-        console.log("Form submitted successfully!");
       } catch (error) {
         console.error("Submission error:", error);
         seterror(error instanceof Error ? error : new Error(String(error)));
@@ -80,6 +80,14 @@ function Home() {
             className="flex h-full w-screen flex-col items-center justify-center gap-5 px-10 py-10"
           >
             <div className="flex flex-col items-start justify-center gap-5">
+              <Image
+                src="elixir-garden-logo.svg"
+                height={100}
+                width={200}
+                className="h-[100px]"
+                alt="Elixir Garden Logo"
+              />
+              <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
               <div className="flex flex-col gap-1">
                 <h1>¿Cual es el mejor perfume para ti?</h1>
                 <p className="text-neutral-400">
@@ -92,7 +100,13 @@ function Home() {
                 </label>
                 <input
                   name="name"
-                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                  onChange={async (e) => {
+                    await formik.setFieldValue(
+                      "name",
+                      e.target.value.toUpperCase(),
+                    );
+                  }}
                   type="text"
                   className="w-[280px]"
                   placeholder="Jhon"
@@ -447,7 +461,7 @@ function Home() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-1">
+              {/* <div className="flex w-full flex-col gap-1">
                 <label htmlFor="name">
                   {" "}
                   ¿Algo adicional que te gustaria?{" "}
@@ -455,12 +469,15 @@ function Home() {
                 </label>
                 <textarea
                   name="aditional_information"
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.handleChange(e); 
+                    e.target.value = e.target.value.toUpperCase(); 
+                  }}
                   rows={4}
                   placeholder='"Quiero un aroma que me recuerde momentos felices."'
                   className="rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm placeholder:font-light placeholder:text-neutral-400 focus:border-green-500 focus:outline-none"
                 ></textarea>
-              </div>
+              </div> */}
 
               <motion.button
                 type="submit"
@@ -497,59 +514,81 @@ function Home() {
         ) : (
           <div className="flex h-full w-screen flex-col items-center justify-center px-10 py-10">
             <div className="flex flex-col items-start justify-center gap-5">
-              <div className="flex w-[280px] w-full flex-col gap-1">
-                <h1>
-                  {formik.values.name}, <br /> el mejor perfume para ti es...
-                </h1>
-                <p className="text-neutral-400">
-                  Resultado de nuestra AI totalmente personalizada para ti.
-                </p>
+              <div className="flex w-[280px] w-full flex-col justify-center items-center gap-5">
+                <Image
+                  src="elixir-garden-logo.svg"
+                  height={100}
+                  width={200}
+                  className="h-[100px]"
+                  alt="Elixir Garden Logo"
+                />
+                <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
+                <div className="rounded-lg w-full max-w-[600px] border-[1px] bg-[#025864] p-4 text-white">
+                  <p className="text-neutral-200">
+                    {formik.values.name}, con el{" "}
+                    <span className="font-bold">
+                      {response[0]?.porcentaje}%
+                    </span>{" "}
+                    el mejor perfume para ti es:
+                  </p>
+                  <h1>{response[0]?.value}</h1>
+                  {response.length > 1 && (
+                    <BarHero porcentaje={response[0]?.porcentaje ?? 0} />
+                  )}
+                </div>
               </div>
-              <Chart />
-              {response.map((perfum: ApiResponse, index) => {
-                const scale = 1 - index * 0.1;
+              <Charts>
+                {response.map((perfum: ApiResponse, index) => {
+                  const scale = 1 - index * 0.1;
 
-                let bgColor;
-                switch (index) {
-                  case 0:
-                    bgColor = "bg-yellow-400";
-                    break;
-                  case 1:
-                    bgColor = "bg-gray-400";
-                    break;
-                  case 2:
-                    bgColor = "bg-yellow-700";
-                    break;
-                  default:
-                    bgColor = "bg-blue-400";
-                }
+                  let bgColor;
+                  switch (index) {
+                    case 0:
+                      bgColor = "text-yellow-400 ";
+                      break;
+                    case 1:
+                      bgColor = "text-gray-400";
+                      break;
+                    case 2:
+                      bgColor = "text-yellow-700";
+                      break;
+                    default:
+                      bgColor = "text-blue-400";
+                  }
 
-                return (
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    key={index}
-                    className="flex min-w-[280px] max-w-[450px] items-center gap-3 rounded-lg border-[1px] bg-white shadow-sm"
-                    style={{
-                      transform: `scale(${scale})`,
-                      transformOrigin: "top",
-                    }}
-                  >
-                    <div
-                      className={`flex h-[70px] w-[100px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`}
+                  return (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      key={index}
+                      className="flex  items-center gap-3 rounded-lg  bg-white "
+                      style={{
+                        transform: `scale(${scale})`,
+                        transformOrigin: "top",
+                      }}
                     >
-                      {index + 1}.
-                    </div>
-                    <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
-                      {perfum.value}
-                      <span className="text-xs font-light text-neutral-500">
-                        {perfum.description}
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              })}
+                      <div
+                        className={`flex h-[40px] w-[70px] flex-col items-center justify-center rounded-full font-bold  ${bgColor}`}
+                      >
+                        <span> {perfum.porcentaje}%</span>
+                      </div>
+                      <hr className="w-[2px] rounded-full h-[50px] bg-neutral-300"/>
+                      <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
+                        <div className="items.center flex justify-start gap-2">
+                          {perfum.value}{" "}
+                          <span className="font-bold text-neutral-400">
+                            {perfum.id}
+                          </span>
+                        </div>
+                        <span className="text-xs font-light text-neutral-500">
+                          {perfum.description}
+                        </span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </Charts>
             </div>
           </div>
         )}
