@@ -523,7 +523,7 @@ function Home() {
                   alt="Elixir Garden Logo"
                 />
                 <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
-                <div className="rounded-lg w-[280px] sm:w-[380px] md:w-[400px] border-[1px] bg-[#025864] p-4 text-white">
+                <div className="rounded-lg w-full max-w-[600px] border-[1px] bg-[#025864] p-4 text-white">
                   <p className="text-neutral-200">
                     {formik.values.name}, con el{" "}
                     <span className="font-bold">

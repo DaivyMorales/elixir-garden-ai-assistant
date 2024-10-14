@@ -9,7 +9,7 @@ const valueFormatter = (number: number) =>
 export function Charts({ children }: { children: ReactNode }) {
   const { response } = useGlobalData();
   return (
-    <div className="w-[280px] rounded-xl border-[1px] bg-white p-5 shadow-sm sm:w-[380px] md:w-[400px]">
+    <div className="w-full max-w-[600px] rounded-xl border-[1px] bg-white p-5 shadow-sm  ">
       <h3 className="text-[13px] font-semibold text-neutral-600">
         Porcentajes
       </h3>
