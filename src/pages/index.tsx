@@ -9,6 +9,7 @@ import { ResponseValues, useGlobalData } from "@/store/GlobalDataSlice";
 import validationSchema from "@/utils/validationSchema";
 import { CgSpinner } from "react-icons/cg";
 import { DonutChartUsageExample } from "@/components/DonutChartUsageExample";
+import { BarHero } from "@/components/BarHero";
 
 interface FormValues {
   name: string;
@@ -511,14 +512,22 @@ function Home() {
                   alt=""
                 />
                 <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
-                <h1>
-                  {formik.values.name}, <br /> el mejor perfume para ti es...
-                </h1>
-                <p className="text-neutral-400">
-                  Resultado de nuestra AI totalmente personalizada para ti.
-                </p>
+                <div className="rounded-lg border-[1px] bg-[#025864] p-4 text-white">
+                  <p className="text-neutral-200">
+                    {formik.values.name}, con el{" "}
+                    <span className="font-bold">
+                      {response[0]?.porcentaje}%
+                    </span>{" "}
+                    el mejor perfume para ti es:
+                  </p>
+                  <h1>{response[0]?.value}</h1>
+                  {response.length > 1 && (
+                    <BarHero porcentaje={response[0]?.porcentaje ?? 0} />
+                  )}
+                </div>
               </div>
               <DonutChartUsageExample />
+
               {response.map((perfum: ApiResponse, index) => {
                 const scale = 1 - index * 0.1;
 
