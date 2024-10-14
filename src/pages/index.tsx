@@ -515,7 +515,7 @@ function Home() {
         ) : (
           <div className="flex h-full w-screen flex-col items-center justify-center px-10 py-10">
             <div className="flex flex-col items-start justify-center gap-5">
-              <div className="flex w-[280px] w-full flex-col gap-1">
+              <div className="flex w-[280px] w-full flex-col justify-center items-center gap-5">
                 <Image
                   src="elixir-garden-logo.svg"
                   height={100}
@@ -524,7 +524,7 @@ function Home() {
                   alt="Elixir Garden Logo"
                 />
                 <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
-                <div className="rounded-lg border-[1px] bg-[#025864] p-4 text-white">
+                <div className="rounded-lg w-[280px] sm:w-[380px] md:w-[400px] border-[1px] bg-[#025864] p-4 text-white">
                   <p className="text-neutral-200">
                     {formik.values.name}, con el{" "}
                     <span className="font-bold">
@@ -538,57 +538,58 @@ function Home() {
                   )}
                 </div>
               </div>
-              <DonutChartUsageExample />
+              <DonutChartUsageExample>
+                {response.map((perfum: ApiResponse, index) => {
+                  const scale = 1 - index * 0.1;
 
-              {response.map((perfum: ApiResponse, index) => {
-                const scale = 1 - index * 0.1;
+                  let bgColor;
+                  switch (index) {
+                    case 0:
+                      bgColor = "text-yellow-400 ";
+                      break;
+                    case 1:
+                      bgColor = "text-gray-400";
+                      break;
+                    case 2:
+                      bgColor = "text-yellow-700";
+                      break;
+                    default:
+                      bgColor = "text-blue-400";
+                  }
 
-                let bgColor;
-                switch (index) {
-                  case 0:
-                    bgColor = "bg-yellow-400";
-                    break;
-                  case 1:
-                    bgColor = "bg-gray-400";
-                    break;
-                  case 2:
-                    bgColor = "bg-yellow-700";
-                    break;
-                  default:
-                    bgColor = "bg-blue-400";
-                }
-
-                return (
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    key={index}
-                    className="flex min-w-[280px] max-w-[450px] items-center gap-3 rounded-lg border-[1px] bg-white shadow-sm"
-                    style={{
-                      transform: `scale(${scale})`,
-                      transformOrigin: "top",
-                    }}
-                  >
-                    <div
-                      className={`flex h-[70px] w-[100px] items-center justify-center rounded-r-lg font-bold text-white ${bgColor}`}
+                  return (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      key={index}
+                      className="flex  items-center gap-3 rounded-lg  bg-white "
+                      style={{
+                        transform: `scale(${scale})`,
+                        transformOrigin: "top",
+                      }}
                     >
-                      {index + 1}.
-                    </div>
-                    <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
-                      <div className="items.center flex justify-start gap-2">
-                        {perfum.value}{" "}
-                        <span className="font-bold text-neutral-400">
-                          {perfum.id}
+                      <div
+                        className={`flex h-[40px] w-[70px] flex-col items-center justify-center rounded-full font-bold  ${bgColor}`}
+                      >
+                        <span> {perfum.porcentaje}%</span>
+                      </div>
+                      <hr className="w-[2px] rounded-full h-[50px] bg-neutral-300"/>
+                      <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
+                        <div className="items.center flex justify-start gap-2">
+                          {perfum.value}{" "}
+                          <span className="font-bold text-neutral-400">
+                            {perfum.id}
+                          </span>
+                        </div>
+                        <span className="text-xs font-light text-neutral-500">
+                          {perfum.description}
                         </span>
                       </div>
-                      <span className="text-xs font-light text-neutral-500">
-                        {perfum.description}
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              })}
+                    </motion.div>
+                  );
+                })}
+              </DonutChartUsageExample>
             </div>
           </div>
         )}
