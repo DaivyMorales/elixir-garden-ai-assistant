@@ -8,6 +8,7 @@ import Chart from "@/components/Chart";
 import { ResponseValues, useGlobalData } from "@/store/GlobalDataSlice";
 import validationSchema from "@/utils/validationSchema";
 import { CgSpinner } from "react-icons/cg";
+import { DonutChartUsageExample } from "@/components/DonutChartUsageExample";
 
 interface FormValues {
   name: string;
@@ -48,8 +49,6 @@ function Home() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
-
       setLoading(true);
 
       try {
@@ -58,7 +57,6 @@ function Home() {
         if (res.status === 200) {
           setResponse(Array.isArray(res.data) ? res.data : [res.data]);
         }
-        console.log("Form submitted successfully!");
       } catch (error) {
         console.error("Submission error:", error);
         seterror(error instanceof Error ? error : new Error(String(error)));
@@ -95,7 +93,10 @@ function Home() {
                 </label>
                 <input
                   name="name"
-                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                  onChange={(e) => {
+                    formik.setFieldValue("name", e.target.value.toUpperCase());
+                  }}
                   type="text"
                   className="w-[280px]"
                   placeholder="Jhon"
@@ -517,7 +518,7 @@ function Home() {
                   Resultado de nuestra AI totalmente personalizada para ti.
                 </p>
               </div>
-              <Chart />
+              <DonutChartUsageExample />
               {response.map((perfum: ApiResponse, index) => {
                 const scale = 1 - index * 0.1;
 

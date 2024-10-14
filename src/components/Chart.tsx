@@ -1,5 +1,4 @@
 import React from "react";
-import { AreaChartHero } from "./AreaChartHero";
 import { BarChartOnValueChangeExample } from "./BarChart";
 
 function Chart() {
