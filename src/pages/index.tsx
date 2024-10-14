@@ -4,13 +4,12 @@ import { TbArrowsMoveVertical } from "react-icons/tb";
 import { useFormik } from "formik";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
-import Chart from "@/components/Chart";
 import { ResponseValues, useGlobalData } from "@/store/GlobalDataSlice";
 import validationSchema from "@/utils/validationSchema";
 import { CgSpinner } from "react-icons/cg";
-import { DonutChartUsageExample } from "@/components/DonutChartUsageExample";
 import { BarHero } from "@/components/BarHero";
 import Image from "next/image";
+import { Charts } from "@/components/Charts";
 
 interface FormValues {
   name: string;
@@ -538,7 +537,7 @@ function Home() {
                   )}
                 </div>
               </div>
-              <DonutChartUsageExample>
+              <Charts>
                 {response.map((perfum: ApiResponse, index) => {
                   const scale = 1 - index * 0.1;
 
@@ -589,7 +588,7 @@ function Home() {
                     </motion.div>
                   );
                 })}
-              </DonutChartUsageExample>
+              </Charts>
             </div>
           </div>
         )}
