@@ -25,6 +25,7 @@ interface ApiResponse {
   value: string;
   description: string;
   porcentaje: number;
+  id: string;
 }
 
 function Home() {
@@ -80,6 +81,8 @@ function Home() {
             className="flex h-full w-screen flex-col items-center justify-center gap-5 px-10 py-10"
           >
             <div className="flex flex-col items-start justify-center gap-5">
+              <img src="elixir-garden-logo.svg" className="h-[100px]" alt="" />
+              <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
               <div className="flex flex-col gap-1">
                 <h1>¿Cual es el mejor perfume para ti?</h1>
                 <p className="text-neutral-400">
@@ -447,7 +450,7 @@ function Home() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-1">
+              {/* <div className="flex w-full flex-col gap-1">
                 <label htmlFor="name">
                   {" "}
                   ¿Algo adicional que te gustaria?{" "}
@@ -455,12 +458,15 @@ function Home() {
                 </label>
                 <textarea
                   name="aditional_information"
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.handleChange(e); 
+                    e.target.value = e.target.value.toUpperCase(); 
+                  }}
                   rows={4}
                   placeholder='"Quiero un aroma que me recuerde momentos felices."'
                   className="rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm placeholder:font-light placeholder:text-neutral-400 focus:border-green-500 focus:outline-none"
                 ></textarea>
-              </div>
+              </div> */}
 
               <motion.button
                 type="submit"
@@ -498,6 +504,12 @@ function Home() {
           <div className="flex h-full w-screen flex-col items-center justify-center px-10 py-10">
             <div className="flex flex-col items-start justify-center gap-5">
               <div className="flex w-[280px] w-full flex-col gap-1">
+                <img
+                  src="elixir-garden-logo.svg"
+                  className="h-[100px]"
+                  alt=""
+                />
+                <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
                 <h1>
                   {formik.values.name}, <br /> el mejor perfume para ti es...
                 </h1>
@@ -542,7 +554,12 @@ function Home() {
                       {index + 1}.
                     </div>
                     <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
-                      {perfum.value}
+                      <div className="items.center flex justify-start gap-2">
+                        {perfum.value}{" "}
+                        <span className="font-bold text-neutral-400">
+                          {perfum.id}
+                        </span>
+                      </div>
                       <span className="text-xs font-light text-neutral-500">
                         {perfum.description}
                       </span>
