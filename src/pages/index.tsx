@@ -10,6 +10,7 @@ import validationSchema from "@/utils/validationSchema";
 import { CgSpinner } from "react-icons/cg";
 import { DonutChartUsageExample } from "@/components/DonutChartUsageExample";
 import { BarHero } from "@/components/BarHero";
+import Image from "next/image";
 
 interface FormValues {
   name: string;
@@ -80,7 +81,13 @@ function Home() {
             className="flex h-full w-screen flex-col items-center justify-center gap-5 px-10 py-10"
           >
             <div className="flex flex-col items-start justify-center gap-5">
-              <img src="elixir-garden-logo.svg" className="h-[100px]" alt="" />
+              <Image
+                src="elixir-garden-logo.svg"
+                height={100}
+                width={200}
+                className="h-[100px]"
+                alt="Elixir Garden Logo"
+              />
               <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
               <div className="flex flex-col gap-1">
                 <h1>¿Cual es el mejor perfume para ti?</h1>
@@ -95,8 +102,11 @@ function Home() {
                 <input
                   name="name"
                   value={formik.values.name}
-                  onChange={(e) => {
-                    formik.setFieldValue("name", e.target.value.toUpperCase());
+                  onChange={async (e) => {
+                    await formik.setFieldValue(
+                      "name",
+                      e.target.value.toUpperCase(),
+                    );
                   }}
                   type="text"
                   className="w-[280px]"
@@ -506,10 +516,12 @@ function Home() {
           <div className="flex h-full w-screen flex-col items-center justify-center px-10 py-10">
             <div className="flex flex-col items-start justify-center gap-5">
               <div className="flex w-[280px] w-full flex-col gap-1">
-                <img
+                <Image
                   src="elixir-garden-logo.svg"
+                  height={100}
+                  width={200}
                   className="h-[100px]"
-                  alt=""
+                  alt="Elixir Garden Logo"
                 />
                 <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
                 <div className="rounded-lg border-[1px] bg-[#025864] p-4 text-white">
