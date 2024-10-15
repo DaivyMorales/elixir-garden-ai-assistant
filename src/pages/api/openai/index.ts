@@ -13,6 +13,7 @@ interface RequestBody {
   intensity: string;
   notes: string;
   aditional_information: string;
+  horoscope: string;
 }
 
 const perfumesInStock = [
@@ -111,6 +112,7 @@ export default async function Gpt(req: NextApiRequest, res: NextApiResponse) {
     intensity,
     notes,
     aditional_information,
+    horoscope
   } = body;
 
   try {
@@ -169,7 +171,7 @@ export default async function Gpt(req: NextApiRequest, res: NextApiResponse) {
                 { name: "360°", id: "24M", genre: "MUJER" },
                 { name: "Santal 33", id: "6U", genre: "UNISEX" },
                 { name: "Light Blue", id: "25M", genre: "MUJER" },
-              ]; , tu tarea sera encontrarle el perfume adecuado. Lo busca ${occasion}, que su duracion sea ${duration} en olor, su personalidad es ${personality}, busca una intencidad ${intensity} en el perfume, y quiere las siguientes notas ${notes}, y nos dijo ademas de todo eso: ${aditional_information}. Quiero que me des la respuesta en JSON en este formato: [{value: "nombre del perfume", description: "porque decidiste aconsejarle este perfume", id: "id del perfume " porcentaje: "el porcentaje que matchea con la peticion del cliente (aqui solo numero enteros, si mandas 5? dividelos en 100%, y dale a cada uno su porcentaje, que la suma de todos de 100%, por ejemplo porcentaje: 60)" }] no me mandes procentajes iguales, digamos dos perfumes que tengan 50 y 50 de procentaje NO. Mandame en orden el json, de el mas importante a el menos importante, minimo dame 3 perfumes para escojer, maximo 5. SOLO DAME EL JSON, NO QUIERO MAS MENSAJES ADICIONALES PORFAVOR, solo mandame el [{...}] nada de ''json [{...}]''  POR FAVOR NO ME MANDES ninguna comilla '''json [{...}]''', no mandes ni ' " ni backtips, ni la palabra json por favor. as propiedades en un objeto JSON deben estar entre comillas dobles (")`,
+              ]; , tu tarea sera encontrarle el perfume adecuado. Lo busca ${occasion}, que su duracion sea ${duration} en olor, su personalidad es ${personality}, busca una intencidad ${intensity} en el perfume, y quiere las siguientes notas ${notes}, quiere un perfume que haga march con su horoscopo: ${horoscope}, y nos dijo ademas de todo eso: ${aditional_information}. Quiero que me des la respuesta en JSON en este formato: [{value: "nombre del perfume", description: "porque decidiste aconsejarle este perfume", id: "id del perfume " porcentaje: "el porcentaje que matchea con la peticion del cliente (aqui solo numero enteros, si mandas 5? dividelos en 100%, y dale a cada uno su porcentaje, que la suma de todos de 100%, por ejemplo porcentaje: 60)" }] no me mandes procentajes iguales, digamos dos perfumes que tengan 50 y 50 de procentaje NO. Mandame en orden el json, de el mas importante a el menos importante, minimo dame 3 perfumes para escojer, maximo 5. SOLO DAME EL JSON, NO QUIERO MAS MENSAJES ADICIONALES PORFAVOR, solo mandame el [{...}] nada de ''json [{...}]''  POR FAVOR NO ME MANDES ninguna comilla '''json [{...}]''', no mandes ni ' " ni backtips, ni la palabra json por favor. as propiedades en un objeto JSON deben estar entre comillas dobles (")`,
             },
           ],
           model: "gpt-4o",
@@ -208,6 +210,7 @@ export default async function Gpt(req: NextApiRequest, res: NextApiResponse) {
         .json({ error: "Error al procesar la respuesta del servidor." });
     }
   } catch (error) {
+    console.log(error)
     const errorMessage =
       error instanceof Error ? error.message : "An unknown error occurred";
     res.status(500).json({ error: errorMessage });

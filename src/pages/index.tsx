@@ -21,6 +21,8 @@ interface FormValues {
   intensity: string;
   notes: string[];
   aditional_information: string;
+  horoscope: string;
+  password: string
 }
 
 interface ApiResponse {
@@ -47,6 +49,8 @@ function Home() {
       intensity: "",
       notes: [],
       aditional_information: "",
+      horoscope: "",
+      password: ""
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -59,7 +63,6 @@ function Home() {
           setResponse(Array.isArray(res.data) ? res.data : [res.data]);
         }
       } catch (error) {
-        console.error("Submission error:", error);
         seterror(error instanceof Error ? error : new Error(String(error)));
       } finally {
         setLoading(false);
@@ -363,6 +366,47 @@ function Home() {
                 ) : null}
               </div>
 
+              <div className="relative flex w-full flex-col gap-1">
+                <label htmlFor="horoscope">
+                  {" "}
+                  <div>
+                    ¿Cual es tu horoscopo?{" "}
+                    <span className="text-neutral-400">(Opcional)</span>
+                  </div>
+                </label>
+                <select
+                  onChange={formik.handleChange}
+                  id="horoscope"
+                  name="horoscope"
+                  className="w-full appearance-none rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm"
+                >
+                  <option value="" className="">
+                    Selecciona una opción
+                  </option>
+                  <option value="Aries">Aries</option>
+                  <option value="Tauro">Tauro</option>
+                  <option value="Géminis">Géminis</option>
+                  <option value="Cáncer">Cáncer</option>
+                  <option value="Leo">Leo</option>
+                  <option value="Virgo">Virgo</option>
+                  <option value="Libra">Libra</option>
+                  <option value="Escorpio">Escorpio</option>
+                  <option value="Sagitario">Sagitario</option>
+                  <option value="Capricornio">Capricornio</option>
+                  <option value="Acuario">Acuario</option>
+                  <option value="Piscis">Piscis</option>
+                </select>
+                <span className="pointer-events-none absolute right-3 top-1/2 translate-y-1 transform text-neutral-500">
+                  <TbArrowsMoveVertical />
+                </span>
+
+                {formik.touched.horoscope && formik.errors.horoscope ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.horoscope}
+                  </div>
+                ) : null}
+              </div>
+
               <div className="flex w-full flex-col gap-3">
                 {/* Notes Section */}
                 <label htmlFor="duracion" className="flex flex-col">
@@ -461,6 +505,27 @@ function Home() {
                 </div>
               </div>
 
+              <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="password">
+                  {" "}
+                  Contraseña <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  onChange={formik.handleChange}
+                  className="w-[280px]"
+                  placeholder="****"
+                />
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="text-xs font-medium text-red-500">
+                    {formik.errors.password}
+                  </div>
+                ) : null}
+              </div>
+
               {/* <div className="flex w-full flex-col gap-1">
                 <label htmlFor="name">
                   {" "}
@@ -514,7 +579,7 @@ function Home() {
         ) : (
           <div className="flex h-full w-screen flex-col items-center justify-center px-10 py-10">
             <div className="flex flex-col items-start justify-center gap-5">
-              <div className="flex w-[280px] w-full flex-col justify-center items-center gap-5">
+              <div className="flex w-[280px] w-full flex-col items-center justify-center gap-5">
                 <Image
                   src="elixir-garden-logo.svg"
                   height={100}
@@ -523,7 +588,7 @@ function Home() {
                   alt="Elixir Garden Logo"
                 />
                 <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
-                <div className="rounded-lg w-full max-w-[600px] border-[1px] bg-[#025864] p-4 text-white">
+                <div className="w-full max-w-[600px] rounded-lg border-[1px] bg-[#025864] p-4 text-white">
                   <p className="text-neutral-200">
                     {formik.values.name}, con el{" "}
                     <span className="font-bold">
@@ -562,18 +627,18 @@ function Home() {
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.5 }}
                       key={index}
-                      className="flex  items-center gap-3 rounded-lg  bg-white "
+                      className="flex items-center gap-3 rounded-lg bg-white"
                       style={{
                         transform: `scale(${scale})`,
                         transformOrigin: "top",
                       }}
                     >
                       <div
-                        className={`flex h-[40px] w-[70px] flex-col items-center justify-center rounded-full font-bold  ${bgColor}`}
+                        className={`flex h-[40px] w-[70px] flex-col items-center justify-center rounded-full font-bold ${bgColor}`}
                       >
                         <span> {perfum.porcentaje}%</span>
                       </div>
-                      <hr className="w-[2px] rounded-full h-[50px] bg-neutral-300"/>
+                      <hr className="h-[50px] w-[2px] rounded-full bg-neutral-300" />
                       <div className="flex flex-col py-4 pr-4 text-sm font-medium text-black">
                         <div className="items.center flex justify-start gap-2">
                           {perfum.value}{" "}

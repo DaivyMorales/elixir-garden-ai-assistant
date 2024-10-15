@@ -39,6 +39,10 @@ export const validationSchema = Yup.object({
   intensity: Yup.string()
     .oneOf(["Llamativo", "Sutil"], "Selecciona una intensidad válida")
     .required("La intensidad es obligatoria"),
+
+  password: Yup.string()
+    .oneOf(["4632"], "La contraseña debe ser exactamente 4632")
+    .required("La contraseña es obligatoria"),
 });
 
 export default validationSchema;
