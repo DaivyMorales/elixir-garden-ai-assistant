@@ -208,66 +208,7 @@ function Home() {
                 ) : null}
               </div>
 
-              <div className="flex w-full flex-col gap-3">
-                {/* Duración Section */}
-                <label htmlFor="duracion" className="flex flex-col">
-                  <div>
-                    Duración <span className="text-red-500">*</span>
-                  </div>
-                  <span className="text-xs text-neutral-400">
-                    Elige alguno de los siguientes:
-                  </span>
-                </label>
-
-                <div className="flex w-full flex-col items-start justify-center gap-2">
-                  <div className="flex w-full cursor-pointer items-center justify-start gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                    <input
-                      type="radio"
-                      name="duration"
-                      id="duration"
-                      value="Duradero"
-                      onChange={formik.handleChange}
-                    />
-                    <div className="flex flex-col">
-                      <label
-                        htmlFor="Duradero"
-                        className="font-medium text-black"
-                      >
-                        Duradero
-                      </label>
-                      <span className="text-xs">
-                        El producto ofrece un uso prolongado diario.
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex w-full cursor-pointer gap-3 rounded-lg border-[1px] bg-white p-2 px-5 text-sm text-neutral-400 shadow-sm">
-                    <input
-                      type="radio"
-                      name="duration"
-                      id="duration"
-                      value="Ligero"
-                      onChange={formik.handleChange}
-                    />
-                    <div className="flex flex-col">
-                      <label
-                        htmlFor="Ligero"
-                        className="font-medium text-black"
-                      >
-                        Ligero
-                      </label>
-                      <span className="text-xs">
-                        Diseño liviano para máxima comodidad y portabilidad.
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                {formik.touched.duration && formik.errors.duration ? (
-                  <div className="text-xs font-medium text-red-500">
-                    {formik.errors.duration}
-                  </div>
-                ) : null}
-              </div>
+              
 
               <div className="relative flex w-full flex-col gap-1">
                 <label htmlFor="personality">
@@ -507,7 +448,7 @@ function Home() {
 
               <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
 
-              <div className="flex flex-col gap-1">
+              {/* <div className="flex flex-col gap-1">
                 <label htmlFor="password">
                   {" "}
                   Contraseña <span className="text-red-500">*</span>
@@ -524,7 +465,7 @@ function Home() {
                     {formik.errors.password}
                   </div>
                 ) : null}
-              </div>
+              </div> */}
 
               {/* <div className="flex w-full flex-col gap-1">
                 <label htmlFor="name">
