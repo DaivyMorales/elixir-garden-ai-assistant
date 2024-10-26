@@ -28,6 +28,9 @@ input[type="text"] {
 input[type="number"] {
   @apply rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm placeholder:font-light placeholder:text-neutral-400 focus:border-green-500 focus:outline-none;
 }
+input[type="password"] {
+  @apply w-full rounded-lg border-[1px] px-3 py-2 text-sm font-normal shadow-sm placeholder:font-light placeholder:text-neutral-400 focus:border-green-500 focus:outline-none;
+}
 
 textarea {
     resize: none; /* Evita el redimensionamiento */
