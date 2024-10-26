@@ -446,7 +446,7 @@ function Home() {
                 </div>
               </div>
 
-              <hr className="h-[2px] w-full rounded-full bg-neutral-100" />
+              {/* <hr className="h-[2px] w-full rounded-full bg-neutral-100" /> */}
 
               {/* <div className="flex flex-col gap-1">
                 <label htmlFor="password">
