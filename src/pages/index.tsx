@@ -16,13 +16,11 @@ interface FormValues {
   age: number;
   gender: string;
   occasion: string;
-  duration: string;
   personality: string;
   intensity: string;
   notes: string[];
   aditional_information: string;
   horoscope: string;
-  password: string
 }
 
 interface ApiResponse {
@@ -44,16 +42,15 @@ function Home() {
       age: 0,
       gender: "",
       occasion: "",
-      duration: "",
       personality: "",
       intensity: "",
       notes: [],
       aditional_information: "",
       horoscope: "",
-      password: ""
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
+      
       setLoading(true);
 
       try {
@@ -61,6 +58,7 @@ function Home() {
 
         if (res.status === 200) {
           setResponse(Array.isArray(res.data) ? res.data : [res.data]);
+          resetForm();
         }
       } catch (error) {
         seterror(error instanceof Error ? error : new Error(String(error)));
@@ -207,8 +205,6 @@ function Home() {
                   </div>
                 ) : null}
               </div>
-
-              
 
               <div className="relative flex w-full flex-col gap-1">
                 <label htmlFor="personality">
@@ -488,7 +484,6 @@ function Home() {
               <motion.button
                 type="submit"
                 initial={{ scale: 1 }}
-                whileHover={loading ? { scale: 1 } : { scale: 1.1 }}
                 whileTap={
                   (formik.isValid && formik.dirty) || !loading
                     ? { scale: 1 }
@@ -498,14 +493,14 @@ function Home() {
                 className={` ${
                   !(formik.isValid && formik.dirty)
                     ? "cursor-not-allowed border-neutral-300 bg-gray-300 text-gray-600"
-                    : "bg-gradient-to-t from-green-500 to-green-400"
-                } flex w-full items-center justify-center gap-1 rounded-lg border-[1px] border-green-500 px-4 py-2 text-sm font-semibold text-white shadow-inner`}
+                    : "bg-green-500 hover:bg-green-600"
+                } text-md flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 font-bold text-white`}
               >
                 {loading ? (
-                  <CgSpinner color="white" size={20} className="animate-spin" />
+                  <CgSpinner color="white" size={22} className="animate-spin" />
                 ) : (
                   <>
-                    Generar perfume
+                    Generar
                     <RiSparkling2Fill color="white" size={17} />
                   </>
                 )}
