@@ -9,7 +9,8 @@ export default {
     current: "currentColor",
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        sans: [`var(--font-noto-sans)`, ...fontFamily.sans],
+        mono: [`var(--font-noto-sans-mono)`, ...fontFamily.mono],
       },
       colors: {
         // light mode
