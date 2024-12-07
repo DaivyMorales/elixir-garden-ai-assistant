@@ -1,3 +1,4 @@
+import { DataProps } from "@/pages/find";
 import type { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
@@ -83,10 +84,16 @@ export default async function handler(
     const result = response.choices[0]?.message?.content;
 
     if (typeof result === "string") {
-      const recommendations = JSON.parse(result);
-      res.status(200).json(recommendations);
+      try {
+        const recommendations: DataProps[] =
+          JSON.parse(result);
+        res.status(200).json(recommendations);
+      } catch (error) {
+        console.error("Error parsing JSON:", result);
+        res.status(500).json({ error: "Invalid response format from OpenAI" });
+      }
     } else {
-      throw new Error("Invalid OpenAI response");
+      res.status(500).json({ error: "Invalid OpenAI response" });
     }
   } catch (error) {
     console.error("Error:", error);

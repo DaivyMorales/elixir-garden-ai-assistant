@@ -12,10 +12,16 @@ const validationSchema = Yup.object({
     .required("Debes escribir algun perfume."),
 });
 
+export interface DataProps {
+  id: string;
+  name: string;
+  reason: string;
+}
+
 function Find() {
   const [loading, setloading] = useState(false);
-  const [data, setData] = useState([]);
-  const [nameSearched, setNameSearched] = useState("")
+  const [data, setData] = useState<DataProps[]>([]);
+  const [nameSearched, setNameSearched] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -24,16 +30,16 @@ function Find() {
     onSubmit: async (values) => {
       setloading(true);
       const response = await axios.post("/api/openai/find", values);
-      
+
       if (response.status === 200) {
         setloading(false);
-        setNameSearched(values.name)
+        setNameSearched(values.name);
       } else if (response.status === 500) {
         setloading(false);
       }
       console.log(values);
       console.log(response);
-      setData(response.data);
+      setData(response.data as DataProps[]);
     },
     validationSchema,
   });
@@ -86,9 +92,7 @@ function Find() {
             ) : null}
           </form>
 
-          {data.length > 0 && (
-            <FindResult data={data} name={nameSearched} />
-          )}
+          {data.length > 0 && <FindResult data={data} name={nameSearched} />}
         </div>
       </div>
     </>
