@@ -29,11 +29,14 @@ function FindResult({ data, name }: FindResultProps) {
             <div className="rounded-lg border-[1px] border-green-500 bg-green-400 px-3 py-1.5">
               <span className="font-black text-black">{index + 1}</span>
             </div>
-            <div>
-              {perfum.name}
-              <span className="rounded-lg bg-neutral-500 px-2 font-mono text-xs text-white">
-                {perfum.id}
-              </span>
+            <div className="flex flex-col items-start justify-start gap-2">
+              <div className="flex items-center justify-center gap-1">
+                {" "}
+                {perfum.name}
+                <span className="rounded-lg bg-neutral-500 px-2 font-mono text-xs text-white">
+                  {perfum.id}
+                </span>
+              </div>
               <p className="text-xs text-neutral-400">{perfum.reason}</p>
             </div>
           </div>

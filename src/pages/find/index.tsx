@@ -74,7 +74,7 @@ function Find() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`${loading ? "cursor-not-allowed border-0 bg-neutral-700 text-neutral-500" : "border-[1px] border-b-[2px] border-green-700 bg-green-500 text-white"} flex items-center justify-center gap-2 rounded-lg px-4 py-2 py-3 text-xs font-medium`}
+                className={`${loading ? "cursor-not-allowed border-0 bg-neutral-700 text-neutral-500" : "border-[1px] border-b-[2px] border-green-700 bg-green-500 text-neutral-800"} flex items-center justify-center gap-2 rounded-lg px-4 py-2 py-3 text-xs font-medium`}
               >
                 {loading && (
                   <div className="animate-spin">
