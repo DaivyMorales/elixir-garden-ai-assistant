@@ -22,9 +22,7 @@ export const validationSchema = Yup.object({
       "Selecciona una ocasión válida",
     )
     .required("La ocasión es obligatoria"),
-  duration: Yup.string()
-    .oneOf(["Duradero", "Ligero"], "Selecciona una opción válida")
-    .required("La duración es obligatoria"),
+
   personality: Yup.string()
     .oneOf(
       [
@@ -40,9 +38,7 @@ export const validationSchema = Yup.object({
     .oneOf(["Llamativo", "Sutil"], "Selecciona una intensidad válida")
     .required("La intensidad es obligatoria"),
 
-  password: Yup.string()
-    .oneOf(["4632"], "La contraseña debe ser exactamente 4632")
-    .required("La contraseña es obligatoria"),
+ 
 });
 
 export default validationSchema;

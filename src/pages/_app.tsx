@@ -1,29 +1,26 @@
-import { GeistSans } from "geist/font/sans";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
-import { Public_Sans } from "next/font/google";
-import Head from "next/head";
-
-import { api } from "@/utils/api";
-
+import { Noto_Sans, Noto_Sans_Mono } from "next/font/google";
 import "@/styles/globals.css";
 
-const inter = Public_Sans({ subsets: ["latin"] });
+const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-noto-sans" });
+const notoSansMono = Noto_Sans_Mono({
+  subsets: ["latin"],
+  variable: "--font-noto-sans-mono",
+});
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <>
-      <SessionProvider session={session}>
-        <main className={inter.className}>
-          <Component {...pageProps} />
-        </main>
-      </SessionProvider>
-    </>
+    <SessionProvider session={session}>
+      <div className={`${notoSans.variable} ${notoSansMono.variable} font-sans`}>
+        <Component {...pageProps} />
+      </div>
+    </SessionProvider>
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;
