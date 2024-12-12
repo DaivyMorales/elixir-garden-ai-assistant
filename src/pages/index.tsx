@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { RiSparkling2Fill } from "react-icons/ri";
-import { TbArrowsMoveVertical } from "react-icons/tb";
 import { useFormik } from "formik";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
-import { ResponseValues, useGlobalData } from "@/store/GlobalDataSlice";
+import { useGlobalData } from "@/store/GlobalDataSlice";
 import validationSchema from "@/utils/validationSchema";
 import { CgSpinner } from "react-icons/cg";
-import { BarHero } from "@/components/BarHero";
-import Image from "next/image";
 import { Charts } from "@/components/Charts";
-import { Component } from "@/components/Component";
-import { BarChartMixed } from "@/components/BarChartMixed";
 
 interface FormValues {
   name: string;
@@ -490,7 +485,7 @@ function Home() {
         ) : loading ? (
           <>loading...</>
         ) : (
-          <div className="relative flex h-full min-h-screen w-screen flex-col items-center justify-start gap-4  px-4 pb-10 text-white">
+          <div className="relative flex h-full min-h-screen w-screen flex-col items-center justify-start gap-4 px-4 pb-10 text-white">
             <div className="absolute right-0 top-0 h-[400px] w-[500px] bg-[#202F27] blur-[90px]" />
             <div className="z-10 flex flex-col items-start justify-center gap-5">
               <div className="flex w-[280px] w-full flex-col items-center justify-center gap-5">
@@ -517,7 +512,6 @@ function Home() {
               </div>
               <Charts>
                 {response.map((perfum: ApiResponse, index) => {
-                  
                   return (
                     // <motion.div
                     //   initial={{ scale: 0, opacity: 0 }}

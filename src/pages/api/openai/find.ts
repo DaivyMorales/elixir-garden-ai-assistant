@@ -10,6 +10,38 @@ export default async function handler(
 ) {
   const { name } = req.body;
 
+  const withTimeout = <T>(promise: Promise<T>, ms: number): Promise<T> => {
+    const timeout = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error("Request timed out")), ms);
+    });
+    return Promise.race([promise, timeout]);
+  };
+
+  const retryOn504 = async <T>(
+    fn: () => Promise<T>,
+    retries: number,
+  ): Promise<T> => {
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        return await fn();
+      } catch (error) {
+        if (
+          error &&
+          typeof error === "object" &&
+          "response" in error &&
+          typeof error.response === "object" &&
+          error.response &&
+          "status" in error.response
+        ) {
+          console.warn(`Error 504, reintentando... Intento ${attempt + 1}`);
+          continue;
+        }
+        throw error;
+      }
+    }
+    throw new Error("Error 504 después de varios intentos");
+  };
+
   const newPrompt = `Eres un asistente experto en perfumes. Mi cliente esta buscando el siguiente perfume: ${name}, pero no contamos con este en nuestro stock, necesito que me des los perfumes que mas se parezcan en olor a los siguientes perfumes que tenemos en stock:  [
                 { name: "Amber Oud Gold", id: "1U", genre: "UNISEX" },
                 { name: "Cloud", id: "1M", genre: "MUJER" },
@@ -74,19 +106,23 @@ export default async function handler(
   Solo devuelve el JSON, no incluyas texto adicional.`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [{ role: "system", content: newPrompt }],
-      temperature: 0.7,
-      max_tokens: 500,
-    });
+    const completion = await retryOn504(async () => {
+      return await withTimeout(
+        openai.chat.completions.create({
+          model: "gpt-4",
+          messages: [{ role: "system", content: newPrompt }],
+          temperature: 0.7,
+          max_tokens: 500,
+        }),
+        10000,
+      );
+    }, 3);
 
-    const result = response.choices[0]?.message?.content;
+    const result = completion.choices[0]?.message?.content;
 
     if (typeof result === "string") {
       try {
-        const recommendations: DataProps[] =
-          JSON.parse(result);
+        const recommendations: DataProps[] = JSON.parse(result);
         res.status(200).json(recommendations);
       } catch (error) {
         console.error("Error parsing JSON:", result);
