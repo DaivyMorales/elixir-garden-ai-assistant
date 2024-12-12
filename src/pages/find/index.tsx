@@ -28,18 +28,24 @@ function Find() {
       name: "",
     },
     onSubmit: async (values) => {
-      setloading(true);
-      const response = await axios.post("/api/openai/find", values);
+      try {
+        setloading(true);
+        console.log("Enviando valores:", values);
 
-      if (response.status === 200) {
-        setloading(false);
-        setNameSearched(values.name);
-      } else if (response.status === 500) {
+        const response = await axios.post("/api/openai/find", values);
+
+        if (response.status === 200) {
+          console.log("Respuesta exitosa:", response.data);
+          setData(response.data as DataProps[]);
+          setNameSearched(values.name);
+        } else {
+          console.error("Error inesperado:", response.status);
+        }
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error);
+      } finally {
         setloading(false);
       }
-      console.log(values);
-      console.log(response);
-      setData(response.data as DataProps[]);
     },
     validationSchema,
   });
