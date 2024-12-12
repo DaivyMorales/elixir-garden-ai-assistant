@@ -100,18 +100,15 @@ export default async function handler(
       "reason": "Por qué este perfume en stock es lo mas parecido a ${name} que el cliente busca"
     }
   ]
-
-
-  
-  Solo devuelve el JSON, no incluyas texto adicional.`;
+  Solo devuelve el JSON, no incluyas texto adicional. no me envies `;
 
   try {
     const completion = await retryOn504(async () => {
       return await withTimeout(
         openai.chat.completions.create({
-          model: "gpt-4",
+          model: "gpt-4o",
           messages: [{ role: "system", content: newPrompt }],
-          temperature: 0.7,
+          temperature: 1,
           max_tokens: 500,
         }),
         10000,
@@ -119,10 +116,14 @@ export default async function handler(
     }, 3);
 
     const result = completion.choices[0]?.message?.content;
+    console.log("result", result);
 
     if (typeof result === "string") {
       try {
-        const recommendations: DataProps[] = JSON.parse(result);
+        const cleanedResult = result.replace(/```json|```/g, "").trim();
+
+        const recommendations: DataProps[] = JSON.parse(cleanedResult);
+
         res.status(200).json(recommendations);
       } catch (error) {
         console.error("Error parsing JSON:", result);
